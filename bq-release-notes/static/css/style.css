@@ -60,6 +60,90 @@
     --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Light Theme Variables Override */
+[data-theme="light"] {
+    --bg-dark: #f1f5f9;
+    --bg-surface: #ffffff;
+    --bg-surface-elevated: #e2e8f0;
+    --bg-card: rgba(255, 255, 255, 0.9);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --border-color-hover: rgba(66, 133, 244, 0.5);
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+
+    --twitter-x-black: #0f172a;
+    --twitter-x-hover: #0284c7;
+
+    --cat-feature-bg: rgba(52, 168, 83, 0.12);
+    --cat-feature-text: #15803d;
+    --cat-feature-border: rgba(52, 168, 83, 0.4);
+
+    --cat-change-bg: rgba(66, 133, 244, 0.12);
+    --cat-change-text: #1d4ed8;
+    --cat-change-border: rgba(66, 133, 244, 0.4);
+
+    --cat-security-bg: rgba(234, 67, 53, 0.12);
+    --cat-security-text: #b91c1c;
+    --cat-security-border: rgba(234, 67, 53, 0.4);
+
+    --cat-issue-bg: rgba(251, 188, 5, 0.15);
+    --cat-issue-text: #b45309;
+    --cat-issue-border: rgba(251, 188, 5, 0.4);
+
+    --cat-announcement-bg: rgba(168, 85, 247, 0.12);
+    --cat-announcement-text: #7e22ce;
+    --cat-announcement-border: rgba(168, 85, 247, 0.4);
+
+    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .brand-text h1 {
+    color: #0f172a;
+}
+
+[data-theme="light"] .bg-glow {
+    opacity: 0.18;
+}
+
+[data-theme="light"] .card-body {
+    color: #334155;
+}
+
+[data-theme="light"] .card-body code {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #c026d3;
+}
+
+[data-theme="light"] .tweet-modal {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: #0f172a;
+}
+
+[data-theme="light"] .modal-header {
+    background: rgba(0, 0, 0, 0.02);
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .selected-note-box {
+    background: #f8fafc;
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .tweet-input-container textarea {
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .twitter-icon {
+    color: #0f172a;
+}
+
 /* Reset & Global */
 * {
     box-sizing: border-box;
@@ -185,6 +269,26 @@ body {
     border-radius: var(--radius-full);
     font-size: 0.82rem;
     color: var(--text-secondary);
+}
+
+.btn-theme-toggle {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 8px 14px;
+    font-size: 0.85rem;
+}
+
+.btn-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--border-color-hover);
+    transform: translateY(-1px);
+}
+
+.theme-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--google-yellow);
 }
 
 .status-dot {

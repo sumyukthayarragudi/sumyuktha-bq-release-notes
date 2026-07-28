@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentTemplate = 'standard';
 
     // DOM Elements
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeToggleLabel = document.getElementById('themeToggleLabel');
     const refreshBtn = document.getElementById('refreshBtn');
     const refreshIcon = document.getElementById('refreshIcon');
     const refreshBtnLabel = document.getElementById('refreshBtnLabel');
@@ -29,6 +31,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const skeletonView = document.getElementById('skeletonView');
     const emptyState = document.getElementById('emptyState');
     const resetFilterBtn = document.getElementById('resetFilterBtn');
+
+    // Theme Switcher Logic
+    let currentTheme = localStorage.getItem('bq_pulse_theme') || 'dark';
+    applyTheme(currentTheme);
+
+    function applyTheme(theme) {
+        currentTheme = theme;
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('bq_pulse_theme', theme);
+
+        if (!themeToggleBtn) return;
+        const sunIcon = themeToggleBtn.querySelector('.sun-icon');
+        const moonIcon = themeToggleBtn.querySelector('.moon-icon');
+
+        if (theme === 'light') {
+            if (sunIcon) sunIcon.style.display = 'none';
+            if (moonIcon) moonIcon.style.display = 'block';
+            if (themeToggleLabel) themeToggleLabel.textContent = 'Dark Mode';
+        } else {
+            if (sunIcon) sunIcon.style.display = 'block';
+            if (moonIcon) moonIcon.style.display = 'none';
+            if (themeToggleLabel) themeToggleLabel.textContent = 'Light Mode';
+        }
+    }
+
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(nextTheme);
+            showToast(`Switched to ${nextTheme.charAt(0).toUpperCase() + nextTheme.slice(1)} Mode`, 'info');
+        });
+    }
 
     // Modal Elements
     const tweetModalBackdrop = document.getElementById('tweetModalBackdrop');
