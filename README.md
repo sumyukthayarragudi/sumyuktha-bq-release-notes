@@ -20,6 +20,8 @@
 - ⚡ **In-Memory Caching (5-Min TTL)**: High-performance backend caching prevents redundant HTTP requests while providing instant page loads.
 - 🏷️ **Intelligent Categorization**: Automatically parses and tags updates into categories such as **Feature**, **Change**, **Issue/Fix**, **Security**, and **Announcement**.
 - 🔍 **Instant Search & Filter**: Real-time client-side keyword search and one-click category filtering with live item counters.
+- 📋 **Copy to Clipboard**: Quick-copy card snippets directly to system clipboard with visual success state feedback & toast alerts.
+- 📊 **CSV Data Export**: Export active/filtered release notes to a structured `.csv` file with RFC-4180 quote escaping for offline analysis.
 - 🐤 **Tweet / X Update Composer**: 
   - Integrated tweet modal with custom formatting templates (*Standard*, *Short*, *Hashtags*).
   - Live 280-character limit counter with visual progress indicator.

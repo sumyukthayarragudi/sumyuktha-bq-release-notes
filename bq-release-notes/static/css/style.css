@@ -373,6 +373,28 @@ body {
     box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
 }
 
+.filter-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-export-csv {
+    background: rgba(52, 168, 83, 0.1);
+    border: 1px solid rgba(52, 168, 83, 0.35);
+    color: #4ade80;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+}
+
+.btn-export-csv:hover {
+    background: rgba(52, 168, 83, 0.22);
+    border-color: var(--google-green);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(52, 168, 83, 0.3);
+    transform: translateY(-1px);
+}
+
 .sort-wrapper {
     display: flex;
     align-items: center;
@@ -579,6 +601,12 @@ body {
 .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-copy-snippet.copied {
+    background: rgba(52, 168, 83, 0.2);
+    border-color: var(--google-green);
+    color: #4ade80;
 }
 
 .btn-tweet {

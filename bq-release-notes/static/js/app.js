@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lastRefreshedText = document.getElementById('lastRefreshedText');
     const categoryChipsEl = document.getElementById('categoryChips');
     const sortOrderSelect = document.getElementById('sortOrder');
+    const exportCsvBtn = document.getElementById('exportCsvBtn');
     const notesGrid = document.getElementById('notesGrid');
     const skeletonView = document.getElementById('skeletonView');
     const emptyState = document.getElementById('emptyState');
@@ -51,6 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
     refreshBtn.addEventListener('click', () => {
         fetchNotes(true);
     });
+
+    if (exportCsvBtn) {
+        exportCsvBtn.addEventListener('click', exportToCSV);
+    }
 
     searchInput.addEventListener('input', (e) => {
         searchQuery = e.target.value.trim().toLowerCase();
@@ -207,10 +212,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Filter, Sort & Render Feed Cards
-    function renderFeed() {
-        skeletonView.style.display = 'none';
-
+    // Filter & Sort helper
+    function getFilteredNotes() {
         let filtered = allNotes.filter(note => {
             const matchesCategory = activeCategory === 'ALL' || note.category === activeCategory;
             const matchesSearch = !searchQuery || 
@@ -223,6 +226,51 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sortOrder === 'oldest') {
             filtered = [...filtered].reverse();
         }
+        return filtered;
+    }
+
+    // Export displayed notes to CSV format
+    function exportToCSV() {
+        const filtered = getFilteredNotes();
+        if (!filtered || filtered.length === 0) {
+            showToast('No release notes available to export', 'error');
+            return;
+        }
+
+        const headers = ["Note ID", "Date", "Category", "Summary Content", "Documentation Link"];
+        
+        const csvRows = [
+            headers.join(','),
+            ...filtered.map(note => {
+                const id = `"${(note.id || '').replace(/"/g, '""')}"`;
+                const date = `"${(note.date || '').replace(/"/g, '""')}"`;
+                const category = `"${(note.category || '').replace(/"/g, '""')}"`;
+                const content = `"${(note.content_text || '').replace(/"/g, '""')}"`;
+                const link = `"${(note.link || '').replace(/"/g, '""')}"`;
+                return [id, date, category, content, link].join(',');
+            })
+        ];
+
+        const csvString = csvRows.join('\r\n');
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        const timestamp = new Date().toISOString().slice(0, 10);
+        link.setAttribute('download', `bigquery_release_notes_${timestamp}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        showToast(`Exported ${filtered.length} release notes to CSV!`, 'success');
+    }
+
+    // Filter, Sort & Render Feed Cards
+    function renderFeed() {
+        skeletonView.style.display = 'none';
+
+        const filtered = getFilteredNotes();
 
         totalCountEl.textContent = filtered.length;
 
@@ -248,9 +296,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         notesGrid.querySelectorAll('.btn-copy-snippet').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const text = e.currentTarget.dataset.text;
+                const targetBtn = e.currentTarget;
+                const text = targetBtn.dataset.text;
                 navigator.clipboard.writeText(text).then(() => {
+                    const originalHTML = targetBtn.innerHTML;
+                    targetBtn.classList.add('copied');
+                    targetBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Copied!
+                    `;
                     showToast('Snippet copied to clipboard!', 'success');
+                    setTimeout(() => {
+                        targetBtn.classList.remove('copied');
+                        targetBtn.innerHTML = originalHTML;
+                    }, 2000);
+                }).catch(() => {
+                    showToast('Failed to copy to clipboard', 'error');
                 });
             });
         });
